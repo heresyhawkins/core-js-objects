@@ -33,8 +33,14 @@ function shallowCopy(obj) {
  *    mergeObjects([{a: 1, b: 2}, {b: 3, c: 5}]) => {a: 1, b: 5, c: 5}
  *    mergeObjects([]) => {}
  */
-function mergeObjects(/* objects */) {
-  throw new Error('Not implemented');
+function mergeObjects(objects) {
+  return objects.reduce((obj, object) => {
+    const copyObj = { ...obj };
+    Object.entries(object).forEach(([key, value]) => {
+      copyObj[key] = copyObj[key] ? copyObj[key] + value : value;
+    });
+    return copyObj;
+  }, {});
 }
 
 /**
@@ -139,10 +145,23 @@ function makeWord(/* lettersObject */) {
  *    sellTickets([25, 25, 50]) => true
  *    sellTickets([25, 100]) => false (The seller does not have enough money to give change.)
  */
-function sellTickets(/* queue */) {
-  throw new Error('Not implemented');
+function sellTickets(queue) {
+  const priceTicket = 25;
+  let totalCost = 0;
+  if (queue[0] > priceTicket) {
+    return false;
+  }
+  for (let i = 0; i < queue.length; i += 1) {
+    if (queue[i] === priceTicket) {
+      totalCost += priceTicket;
+    } else if (queue[i] - priceTicket <= totalCost) {
+      totalCost += priceTicket;
+    } else {
+      return false;
+    }
+  }
+  return true;
 }
-
 /**
  * Returns the rectangle object with width and height parameters and getArea() method
  *
